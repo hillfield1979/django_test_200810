@@ -25,16 +25,16 @@ before_install:
 #  - docker-compose run workspace php artisan key:generate
 
 before_script:
-   - touch /django/src/.env
-   - echo DEBUG=$DJANGO_DEBUG >> .env
-   - echo SECRET_KEY=$DJANGO_SECRET_KEY >> .env
-   - echo DATABASE_ENGINE=$DJANGO_DATABASE_ENGINE >> .env
-   - echo DATABASE_DB=$DJANGO_DATABASE_DB >> .env
-   - echo DATABASE_USER=$DJANGO_DATABASE_USER >> .env
-   - echo DATABASE_PASSWORD=$DJANGO_DATABASE_PASSWORD >> .env
-   - echo DATABASE_HOST=$DJANGO_DATABASE_HOST >> .env
-   - echo DATABASE_PORT=$DJANGO_DATABASE_PORT >> .env
-   - echo DATABASE=$DJANGO_DATABASE >> .env
+   - touch django/src/.env
+   - echo DEBUG=$DJANGO_DEBUG >> django/src/.env
+   - echo SECRET_KEY=$DJANGO_SECRET_KEY >> django/src/.env
+   - echo DATABASE_ENGINE=$DJANGO_DATABASE_ENGINE >> django/src/.env
+   - echo DATABASE_DB=$DJANGO_DATABASE_DB >> django/src/.env
+   - echo DATABASE_USER=$DJANGO_DATABASE_USER >> django/src/.env
+   - echo DATABASE_PASSWORD=$DJANGO_DATABASE_PASSWORD >> django/src/.env
+   - echo DATABASE_HOST=$DJANGO_DATABASE_HOST >> django/src/.env
+   - echo DATABASE_PORT=$DJANGO_DATABASE_PORT >> django/src/.env
+   - echo DATABASE=$DJANGO_DATABASE >> django/src/.env
 
 script:
 #  - docker-compose exec django python3 manage.py makemigrations boardapp
