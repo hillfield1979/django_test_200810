@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+    django:
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfile.env
+        ports:
+            - '8123:8000'
+        volumes:
+            - '../src:/var/django'
+        container_name: my-django
+        tty: true
+        stdin_open: true
+        # サービス起動後に入力されるコマンドを設定
+        command: python manage.py runserver 0.0.0.0:8000
+        # 接続するサービスを指定
+        depends_on: postgres
+        environment:
+            - DEBUG=1                             # debug mode if 1 
+            - SECRET_KEY=hoge
+            - DATABASE_ENGINE=django.db.backends.postgresql
+            - DATABASE_DB=django_db
+            - DATABASE_USER=django_db_user
+            - DATABASE_PASSWORD=password1234
+            - DATABASE_HOST=postgres
+            - DATABASE_PORT=5432
+
+    postgres:
+        # 公式からイメージをpull
+        image: postgres:11.4-alpine
+        # データベースの永続化
+        # ホストのディレクトリにマウントしない様に、先頭に`./`をつけない
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        # su権限を持つ、指定されたユーザーと同じ名前のデータベースを作成
+        # valueはdjangoサービスで指定したものと同じ様に記載する
+        environment:
+            - POSTGRES_USER=django_db_user
+            - POSTGRES_PASSWORD=password1234
+            - POSTGRES_DB=django_db
+
+# トップレベルに書く「名前付きvolumes」は複数サービスから参照できる
+volumes:
+    postgres_data:

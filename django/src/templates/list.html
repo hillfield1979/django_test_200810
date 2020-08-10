@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">
+  Internal SNS
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+	{% for item in object_list %}
+		<div class="alert alert-success" role="alert">
+		  <p>Title  : <a href="{% url 'detail' item.pk %}">{{item.title}}</a></p>
+		  <p>Author : {{item.author}}</p>
+
+		  <a href="#" class="btn btn-primary" role="button" aria-pressed="true">good : {{item.good}}</a>
+		  <a href="#" class="btn btn-secondary" role="button" aria-pressed="true">Already read : {{item.read}}</a>
+		</div>
+	{% endfor %}
+	<a href="{% url 'logout' %}">logout</a>
+
+{% endblock content %}

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    django:
+      build:
+        context: ./django
+        dockerfile: ./docker/dockerfile.env
+      ports:
+        - '8123:8000'
+      volumes:
+        - './django/src:/var/django'
+      container_name: my-django
+      tty: true
+      stdin_open: true

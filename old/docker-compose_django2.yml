@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    django:
+        # コンテナ名
+        container_name: my-django
+        # ビルドするdockerファイルが格納されたディレクトリ
+        build:
+            context: ./django
+            dockerfile: ./docker/dockerfile.env
+        # ホスト側のポート：コンテナ側のポート
+        ports:
+            - '8123:8000'
+        # マウントするディレクトリ
+        volumes:
+            - './django/src:/var/django'
+        # 接続するサービス
+#        depends_on:
+#            - postgres
+        tty: true
+        stdin_open: true

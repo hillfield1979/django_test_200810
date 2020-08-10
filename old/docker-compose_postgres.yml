@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+    django:
+        # コンテナ名
+        container_name: my-django
+        # ビルドするdockerファイルが格納されたディレクトリ
+        build:
+            context: ./django
+            dockerfile: ./docker/dockerfile.env
+        # ホスト側のポート：コンテナ側のポート
+        ports:
+            - '8123:8000'
+        # マウントするディレクトリ
+        volumes:
+            - './django/src:/var/django'
+        # 環境変数に設定するファイル
+#        env_file:
+#            - ./django/.env        # 接続するサービス
+        depends_on:
+            - postgres
+        stdin_open: true
+        # 正常起動後に実行するコマンド
+#        command: /bin/bash -c "touch test_okano"
+#        command: python3 manage.py migrate
+#        command: /bin/bash
+#           
+#           /bin/bash -c "python3 manage.py shell -c from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@localhost', 'admin') && \
+#            - python3 manage.py runserver 0.0.0.0:8000
+        tty: true
+
+    postgres:
+        # コンテナ名
+        container_name: postgres
+        # ビルドするdockerファイルが格納されたディレクトリ
+        build:
+            context: ./postgres
+            dockerfile: ./docker/dockerfile.env
+        # マウントするディレクトリ
+        volumes:
+            # DBのデータはボリュームを作成して保存
+            # ディレクトリとマウントとって実データをホストOSに直接残しても良い
+            # /var/lib/postgresql/dataにDBのデータが格納されている
+#            - sample_postgis_data:/var/lib/postgresql/data
+            # down -vなどでボリュームがない時などを含めた初回起動時に実行されるファイルを指定
+            - ./postgres/sql:/docker-entrypoint-initdb.d
+        # 環境変数に設定するファイル
+        env_file: ./postgres/.env_db
+        # ホスト側のポート：コンテナ側のポート
+        ports:
+            # ホスト側のポートはローカルのpsqlとバッティングするので5432以外にする
+            - 5433:5432

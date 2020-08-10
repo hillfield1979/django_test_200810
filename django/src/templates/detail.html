@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">
+  Indivisual tweet
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+	<div class="alert alert-success" role="alert">
+	  <p>Title   : {{object.title}}</p>
+	  <p>Author  : {{object.author}}</p>
+	  <p>content : {{object.content}}</p>
+	  <p><img src='{{object.images.url}}' width=300</p>
+	  <p></p>
+	  <a href="{% url 'good' object.pk %}" class="btn btn-primary" role="button" aria-pressed="true">I like it </a>
+	  <a href="{% url 'read' object.pk %}" class="btn btn-secondary" role="button" aria-pressed="true">already read</a>
+	</div>
+	<a href="{% url 'logout' %}">logout</a>
+
+{% endblock content %}
