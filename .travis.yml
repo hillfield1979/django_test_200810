@@ -17,7 +17,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - cd docker
+  - cd /django/docker
   - docker-compose up --build -d
 #  - docker-compose up -d mysql_test
 #  - docker-compose run workspace composer install
@@ -29,4 +29,5 @@ script:
   - docker-compose exec django python3 manage.py makemigrations boardapp
   - docker-compose exec django python3 manage.py migrate
 #  - docker-compose exec django python3 manage.py createsuperuser
-  - docker-compose exec django python3 manage.py runserver 0.0.0.0:8000
+#  - docker-compose exec django python3 manage.py runserver 0.0.0.0:8000
+  - docker-compose exec django python3 manage.py test
