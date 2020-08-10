@@ -24,6 +24,17 @@ before_install:
 #  - cp .env.example .env
 #  - docker-compose run workspace php artisan key:generate
 
+before_script:
+   - touch django/src/.env
+   - echo DEBUG=$DJANGO_DEBUG >> .env
+   - echo SECRET_KEY=$DJANGO_SECRET_KEY >> .env
+   - echo DATABASE_ENGINE=$DJANGO_DATABASE_ENGINE >> .env
+   - echo DATABASE_DB=$DJANGO_DATABASE_DB >> .env
+   - echo DATABASE_USER=$DJANGO_DATABASE_USER >> .env
+   - echo DATABASE_PASSWORD=$DJANGO_DATABASE_PASSWORD >> .env
+   - echo DATABASE_HOST=$DJANGO_DATABASE_HOST >> .env
+   - echo DATABASE_PORT=$DJANGO_DATABASE_PORT >> .env
+   - echo DATABASE=$DJANGO_DATABASE >> .env
 
 script:
   - docker-compose exec django python3 manage.py makemigrations boardapp
