@@ -56,5 +56,5 @@ deploy:
     docker push registry heroku.com/$HEROU_APP_NAME/web;
     heroku run --app $HEROU_APP_NAME python3 manage.py migrate;
   on:
-    branch:master
+    branch: master
 
