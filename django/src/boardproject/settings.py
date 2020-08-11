@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import environ
-
 env = environ.Env()
 env.read_env('.env')
+
+hostenv = env.get_value('HOSTENV', default='CDTOOL')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,14 +25,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.get_value('SECRET_KEY')
+if hostenv = 'CDTOOL':
+    SECRET_KEY = os.environ['SECRET_KEY']
+    import django_heroku #追加
+    django_heroku.settings(locals()) #追加
+else
+    SECRET_KEY = env.get_value('SECRET_KEY')
+
 # SECRET_KEY = '@$*mtzch432n!7c+4)h)!!g7b%=bv!n@5go$+#=^qzm4sfsep3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.get_value('DEBUG')
-# DEBUG = True
+# DEBUG = env.get_value('DEBUG')
+DEBUG = True
+
+if hostenv = 'CITOOL':
+    DEBUG=False
+elif hostenv = 'CDTOOL':
+    DEBUG=False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if hostenv = 'CDTOOL':
+    ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -54,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #追加
 ]
 
 ROOT_URLCONF = 'boardproject.urls'
@@ -79,6 +94,11 @@ WSGI_APPLICATION = 'boardproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+if "COMPUTER-_NAME" in hostname:
+    DEBUG = True     # デバッグ環境
+else:
+    DEBUG = False    # 本番環境
+
 
 DATABASES = {
     'default': {
@@ -90,6 +110,11 @@ DATABASES = {
         'PORT': env.get_value('DATABASE_PORT', default='5432'),
     }
 }
+if hostenv = 'CDTOOL':
+    DEBUG=False
+    ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+    db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -150,3 +175,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8080',
 )
+
+#whitenoise
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

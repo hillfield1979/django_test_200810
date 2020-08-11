@@ -24,6 +24,7 @@ before_install:
 #  - cp .env.example .env
 #  - docker-compose run workspace php artisan key:generate
 
+
 before_script:
    - touch django/src/.env
    - echo DEBUG=$DJANGO_DEBUG >> django/src/.env
@@ -35,6 +36,8 @@ before_script:
    - echo DATABASE_HOST=$DJANGO_DATABASE_HOST >> django/src/.env
    - echo DATABASE_PORT=$DJANGO_DATABASE_PORT >> django/src/.env
    - echo DATABASE=$DJANGO_DATABASE >> django/src/.env
+#   - psql -c 'create database travis_ci_test;' -U postgres
+
 
 script:
 #  - docker-compose exec django python3 manage.py makemigrations boardapp
