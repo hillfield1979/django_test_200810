@@ -24,6 +24,7 @@ before_install:
 #  - cp .env.example .env
 #  - docker-compose run workspace php artisan key:generate
 
+  - docker login -u "$HEROKU_USERNAME" -p "$HEROKU_API_KEY" registry.heroku.com
 
 before_script:
    - touch django/src/.env
@@ -46,3 +47,14 @@ script:
 #  - docker-compose exec django1 python3 manage.py createsuperuser
 #  - docker-compose exec django1 python3 manage.py runserver 0.0.0.0:8000
   - docker-compose exec django1 python3 manage.py test
+
+
+deploy:
+  provider:script
+  script:
+    docker build -t registry heroku.com/$HEROU_APP_NAME/web -f django/docker/dockerfile.prod .;
+    docker push registry heroku.com/$HEROU_APP_NAME/web;
+    heroku run --app $HEROU_APP_NAME python3 manage.py migrate;
+  on:
+    branch:master
+    
