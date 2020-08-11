@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    django:
+    django1:
         # コンテナ名
         container_name: my-django
         # ビルドするdockerファイルが格納されたディレクトリ
@@ -18,7 +18,7 @@ services:
 #        env_file:
 #            - ./django/.env        # 接続するサービス
         depends_on:
-            - postgres
+            - postgres1
         stdin_open: true
         # 正常起動後に実行するコマンド
 #        command: /bin/bash -c "touch test_okano"
@@ -29,9 +29,9 @@ services:
 #            - python3 manage.py runserver 0.0.0.0:8000
         tty: true
 
-    postgres:
+    postgres1:
         # コンテナ名
-        container_name: postgres
+        container_name: my-postgres
         # ビルドするdockerファイルが格納されたディレクトリ
         build:
             context: ./postgres

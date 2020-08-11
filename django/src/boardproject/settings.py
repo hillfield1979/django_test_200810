@@ -25,11 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if hostenv = 'CDTOOL':
+if hostenv == 'CDTOOL':
     SECRET_KEY = os.environ['SECRET_KEY']
     import django_heroku #追加
     django_heroku.settings(locals()) #追加
-else
+else:
     SECRET_KEY = env.get_value('SECRET_KEY')
 
 # SECRET_KEY = '@$*mtzch432n!7c+4)h)!!g7b%=bv!n@5go$+#=^qzm4sfsep3'
@@ -38,13 +38,13 @@ else
 # DEBUG = env.get_value('DEBUG')
 DEBUG = True
 
-if hostenv = 'CITOOL':
+if hostenv == 'CITOOL':
     DEBUG=False
-elif hostenv = 'CDTOOL':
+elif hostenv == 'CDTOOL':
     DEBUG=False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if hostenv = 'CDTOOL':
+if hostenv == 'CDTOOL':
     ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
@@ -94,27 +94,34 @@ WSGI_APPLICATION = 'boardproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-if "COMPUTER-_NAME" in hostname:
-    DEBUG = True     # デバッグ環境
-else:
-    DEBUG = False    # 本番環境
-
-
 DATABASES = {
     'default': {
-        'ENGINE': env.get_value('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': env.get_value('DATABASE_DB', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'postgres',
+        'HOST': 'postgres1', # Docker's copy of postgres
+        'PORT': 5432,
+        # 'ENGINE': env.get_value('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        # 'NAME': env.get_value('DATABASE_DB', default=os.path.join(BASE_DIR, 'db.sqlite3')),
         'USER': env.get_value('DATABASE_USER', default='django_user'),
         'PASSWORD': env.get_value('DATABASE_PASSWORD', default='password'),
-        'HOST': env.get_value('DATABASE_HOST', default='localhost'),
-        'PORT': env.get_value('DATABASE_PORT', default='5432'),
+        # 'HOST': env.get_value('DATABASE_HOST', default='localhost'),
+        # 'PORT': env.get_value('DATABASE_PORT', default='5432'),
     }
 }
-if hostenv = 'CDTOOL':
-    DEBUG=False
-    ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-    db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-    DATABASES['default'].update(db_from_env)
+
+import dj_database_url
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
+
+# if hostenv = 'CDTOOL':
+#     import dj_database_url
+#     DEBUG=False
+#     ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+#     db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+#     DATABASES['default'].update(db_from_env)
 
 
 # Password validation
