@@ -41,8 +41,8 @@ before_script:
 
 
 script:
-#  - docker-compose exec django python3 manage.py makemigrations boardapp
-  - docker-compose exec django bash -c "python3 manage.py migrate"
-#  - docker-compose exec django python3 manage.py createsuperuser
-#  - docker-compose exec django python3 manage.py runserver 0.0.0.0:8000
-  - docker-compose exec django python3 manage.py test
+#  - docker-compose exec django1 python3 manage.py makemigrations boardapp
+  - docker-compose exec django1 bash -c "python3 manage.py migrate"
+#  - docker-compose exec django1 python3 manage.py createsuperuser
+#  - docker-compose exec django1 python3 manage.py runserver 0.0.0.0:8000
+  - docker-compose exec django1 python3 manage.py test
