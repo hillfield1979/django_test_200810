@@ -96,18 +96,18 @@ WSGI_APPLICATION = 'boardproject.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'postgres',
         # 'USER': 'postgres',
         # 'PASSWORD': 'postgres',
-        'HOST': 'postgres1', # Docker's copy of postgres
-        'PORT': 5432,
-        # 'ENGINE': env.get_value('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
-        # 'NAME': env.get_value('DATABASE_DB', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        # 'HOST': 'postgres1', # Docker's copy of postgres
+        # 'PORT': 5432,
+        'ENGINE': env.get_value('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env.get_value('DATABASE_DB', default=os.path.join(BASE_DIR, 'db.sqlite3')),
         'USER': env.get_value('DATABASE_USER', default='django_user'),
         'PASSWORD': env.get_value('DATABASE_PASSWORD', default='password'),
-        # 'HOST': env.get_value('DATABASE_HOST', default='localhost'),
-        # 'PORT': env.get_value('DATABASE_PORT', default='5432'),
+        'HOST': env.get_value('DATABASE_HOST', default='localhost'),
+        'PORT': env.get_value('DATABASE_PORT', default='5432'),
     }
 }
 
@@ -115,14 +115,6 @@ import dj_database_url
 DATABASE_URL = os.environ.get('DATABASE_URL')
 db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
 DATABASES['default'].update(db_from_env)
-
-# if hostenv = 'CDTOOL':
-#     import dj_database_url
-#     DEBUG=False
-#     ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-#     db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-#     DATABASES['default'].update(db_from_env)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
