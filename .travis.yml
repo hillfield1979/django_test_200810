@@ -27,6 +27,7 @@ before_install:
 
 before_script:
    - touch django/src/.env
+   - echo HOSTENV=$HOSTENV >> django/src/.env
    - echo DEBUG=$DJANGO_DEBUG >> django/src/.env
    - echo SECRET_KEY=$DJANGO_SECRET_KEY >> django/src/.env
    - echo DATABASE_ENGINE=$DJANGO_DATABASE_ENGINE >> django/src/.env
