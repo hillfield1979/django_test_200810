@@ -2,6 +2,10 @@
 FROM ubuntu:latest
 
 
+# ENV #####
+ENV PYTHONUNBUFFERED 1
+
+
 # install python #####
 RUN apt-get update && apt-get install -y sudo     # update installable lib. list (not install)
                                                   # install sudo package
@@ -32,4 +36,8 @@ RUN pip install -r req.txt    # pylib install from req.txt
 
 
 COPY ..
-# CMD ['python3', 'manage.py', 'runserver', '0.0.0.0:8000']
+
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku
+#CMD [ "python", "./manage.py", "runserver", "0.0.0.0:8000"]
+#CMD gunicorn --bind 0.0.0.0:$PORT application.wsgi
