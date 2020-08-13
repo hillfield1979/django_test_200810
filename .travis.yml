@@ -54,8 +54,8 @@ deploy:
   script:
     docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f django/docker/dockerfile.prod .;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-    heroku run --app registry.heroku.com/$HEROKU_APP_NAME/web python3 manage.py migrate
-#     heroku run --app $HEROKU_APP_NAME python3 manage.py migrate;
+#    heroku run --app registry.heroku.com/$HEROKU_APP_NAME/web python3 manage.py migrate
+     heroku run --app $HEROKU_APP_NAME python3 manage.py migrate;
   on:
     branch: master
 
