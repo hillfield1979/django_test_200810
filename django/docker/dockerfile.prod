@@ -38,4 +38,4 @@ COPY ./django/src /var/django
 # $PORT is set by Heroku
 #CMD [ "python", "./manage.py", "runserver", "0.0.0.0:8000"]
 
-CMD gunicorn --bind 0.0.0.0:$PORT application.wsgi
+# CMD gunicorn --bind 0.0.0.0:$PORT application.wsgi
