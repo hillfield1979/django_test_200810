@@ -59,14 +59,3 @@ deploy:
   on:
     branch: master
 
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-    docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f django/docker/dockerfile.prod .;
-    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-    heroku run --app registry.heroku.com/$HEROKU_APP_NAME/web python manage.py migrate
-  on:
-    branch: master
-
