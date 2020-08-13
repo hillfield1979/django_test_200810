@@ -50,7 +50,7 @@ script:
 
 
 deploy:
-  provider: heroku
+  provider: script
   script:
     docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f django/docker/dockerfile.prod .;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
