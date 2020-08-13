@@ -2,10 +2,6 @@
 FROM ubuntu:latest
 
 
-# ENV #####
-ENV PYTHONUNBUFFERED 1
-
-
 # install python #####
 RUN apt-get update && apt-get install -y sudo     # update installable lib. list (not install)
                                                   # install sudo package
@@ -31,13 +27,15 @@ ENV LANG en_US.utf8
 
 # django setting #####
 WORKDIR /var/django
-ADD docker/req.txt /var/django
+ADD ./django/docker/req.txt /var/django
 RUN pip install -r req.txt    # pylib install from req.txt
 
 
-COPY ..
+#COPY ..
+COPY ./django/src /var/django
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku
 #CMD [ "python", "./manage.py", "runserver", "0.0.0.0:8000"]
-#CMD gunicorn --bind 0.0.0.0:$PORT application.wsgi
+
+CMD gunicorn --bind 0.0.0.0:$PORT application.wsgi
