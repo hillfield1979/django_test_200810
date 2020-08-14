@@ -29,7 +29,7 @@ ENV LANG en_US.utf8
 WORKDIR /var/django
 ADD ./django/docker/req.txt /var/django
 RUN pip install -r req.txt    # pylib install from req.txt
-
+RUN pip install django-heroku==0.3.1 --no-deps
 
 #COPY ..
 COPY ./django/src /var/django
